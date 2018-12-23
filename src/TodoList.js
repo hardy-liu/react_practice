@@ -26,11 +26,14 @@ class TodoList extends Component {
             className="input"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
+            ref={(input) => (this.input = input)}
           />
           <button onClick={this.handleBtnClick}>submit</button>
         </div>
 
-        <ul>
+        <ul
+          ref={(ul) => this.ul = ul}
+        >
           { this.getTodoItem() }
         </ul>
       </Fragment>
@@ -51,7 +54,8 @@ class TodoList extends Component {
   }
 
   handleInputChange (e) {
-    const value = e.target.value  //因为setState是异步的，所以需要提前将value拿出来
+    // const value = e.target.value  //因为setState是异步的，所以需要提前将value拿出来
+    const value = this.input.value
     this.setState(() => ({
       inputValue: value
     }))
@@ -65,7 +69,9 @@ class TodoList extends Component {
     this.setState((preState) => ({
       list: [...preState.list, preState.inputValue],
       inputValue: '',
-    }))
+    }), () => { //setState的第二个参数为回调函数
+      console.log(this.ul.querySelectorAll('li').length)
+    })
 
     // this.setState({
     //   list: [...this.state.list, this.state.inputValue],
