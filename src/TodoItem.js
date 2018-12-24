@@ -17,6 +17,7 @@ class TodoItem extends Component {
   }
 
   render () {
+    console.log('child render')
     const { content, test } = this.props
     return (
       <li
@@ -28,6 +29,14 @@ class TodoItem extends Component {
   //当这个组件即将从页面中被移除时
   componentWillUnmount () {
     console.log('child component will unmount.')
+  }
+
+  shouldComponentUpdate (nextProps, nextState, nextContext) {
+    //每一次父组件update的时候 子组件都会update，通过这个函数限制子组件的更新提升性能
+    if (nextProps.content !== this.props.content)
+      return true
+
+    return false
   }
 
   handleClick () {
