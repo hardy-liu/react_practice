@@ -1,39 +1,49 @@
 import React, { Fragment, Component } from 'react'
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './style.css'
 
 class TodoList extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      show: true,
+      list: [],
     }
 
-    this.handleToggle = this.handleToggle.bind(this)
+    this.handleAddItem = this.handleAddItem.bind(this)
   }
 
   render () {
     return (
       <Fragment>
-        <CSSTransition
-          in={this.state.show}
-          timeout={1000}
-          classNames='fade'
-          unmountOnExit
-          onEnter={(el) => {el.style.color='blue'}}
-          appear={true}
-        >
-          <div>hello</div>
-        </CSSTransition>
+        <TransitionGroup>
+          {
+            this.state.list.map((item, index) => {
+              return (
+                <CSSTransition
+                  // in={this.state.show}
+                  timeout={1000}
+                  classNames='fade'
+                  unmountOnExit
+                  onEnter={(el) => {el.style.color='blue'}}
+                  appear={true}
+                  key={index}
+                >
+                  <div>{item}</div>
+                </CSSTransition>
 
-        <button onClick={this.handleToggle}>toggle</button>
+              )
+            })
+          }
+        </TransitionGroup>
+
+        <button onClick={this.handleAddItem}>Add</button>
       </Fragment>
     )
   }
 
-  handleToggle () {
+  handleAddItem () {
     this.setState((preState) => ({
-      show: !preState.show,
+      list: [...preState.list, 'item']
     }))
   }
 }
