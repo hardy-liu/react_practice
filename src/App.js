@@ -1,4 +1,5 @@
 import React, { Fragment, Component } from 'react'
+import { CSSTransition } from 'react-transition-group'
 import './style.css'
 
 class TodoList extends Component {
@@ -14,8 +15,16 @@ class TodoList extends Component {
   render () {
     return (
       <Fragment>
-        <div className={this.state.show ? 'show' : 'hide'}
-        >hello</div>
+        <CSSTransition
+          in={this.state.show}
+          timeout={1000}
+          classNames='fade'
+          unmountOnExit
+          onEnter={(el) => {el.style.color='blue'}}
+          appear={true}
+        >
+          <div>hello</div>
+        </CSSTransition>
 
         <button onClick={this.handleToggle}>toggle</button>
       </Fragment>
