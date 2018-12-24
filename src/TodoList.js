@@ -15,7 +15,13 @@ class TodoList extends Component {
     this.handleItemDelete = this.handleItemDelete.bind(this)
   }
 
+  //在组件即将被挂载到页面的时刻自动执行
+  componentWillMount () {
+    console.log('component will mount.')
+  }
+
   render () {
+    console.log('render.')
     return (
       <Fragment>
         <div>
@@ -38,6 +44,29 @@ class TodoList extends Component {
         </ul>
       </Fragment>
     )
+  }
+
+  //在组件被挂载到页面之后的时刻自动执行
+  componentDidMount () {
+    console.log('component did mount.')
+  }
+
+  //组件更新之前，它会自动被执行
+  shouldComponentUpdate (nextProps, nextState, nextContext) {
+    console.log('should component update.', nextProps, nextState, nextContext)
+    return true
+  }
+
+  //组件更新之前，它会自动执行，但是他在shouldComponent之后被执行
+  //如果shouldComponentUpdate返回true它才执行
+  //如果返回false则之后的生命周期函数都不会执行
+  componentWillUpdate (nextProps, nextState, nextContext) {
+    console.log('component will update.')
+  }
+
+  //组件更新完成之后它会执行
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    console.log('component did update.')
   }
 
   getTodoItem () {
