@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import { Button, Input, List } from 'antd'
 import store from './store'
-import ActionTypes from './store/actionTypes'
+// import ActionTypes from './store/actionTypes'
+import ActionCreator from './store/actionCreators'
 
 class TodoList extends Component {
   constructor (props) {
@@ -18,10 +19,11 @@ class TodoList extends Component {
 
   handleInputChange (e) {
     // console.log(e.target.value)
-    const action = {    //action 的type属性是必须的
-      type: ActionTypes.CHANGE_INPUT_VALUE,
-      value: e.target.value,
-    }
+    // const action = {    //action 的type属性是必须的
+    //   type: ActionTypes.CHANGE_INPUT_VALUE,
+    //   value: e.target.value,
+    // }
+    const action = ActionCreator.getInputChangeAction(e.target.value)
     store.dispatch(action)
   }
 
@@ -31,18 +33,20 @@ class TodoList extends Component {
   }
 
   handleBtnClick () {
-    const action = {
-      type: ActionTypes.ADD_TODO_ITEM,
-    }
+    // const action = {
+    //   type: ActionTypes.ADD_TODO_ITEM,
+    // }
+    const action = ActionCreator.getAddItemAction()
     store.dispatch(action)
   }
 
   handleListClick (index) {
-    console.log(index)
-    const action = {
-      type: ActionTypes.DEL_TODO_ITEM,
-      index,
-    }
+    // console.log(index)
+    // const action = {
+    //   type: ActionTypes.DEL_TODO_ITEM,
+    //   index,
+    // }
+    const action = ActionCreator.getDelItemAction(index)
     store.dispatch(action)
   }
 
