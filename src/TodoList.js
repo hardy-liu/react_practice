@@ -18,6 +18,12 @@ class TodoList extends Component {
     store.subscribe(this.handleStoreChange)
   }
 
+  componentDidMount () {
+    const action = ActionCreator.getTestApi()
+    // console.log(action)
+    store.dispatch(action)
+  }
+
   handleInputChange (e) {
     // console.log(e.target.value)
     // const action = {    //action 的type属性是必须的
@@ -29,7 +35,7 @@ class TodoList extends Component {
   }
 
   handleStoreChange () {
-    console.log('store change')
+    // console.log('store change')
     this.setState(store.getState())
   }
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import 'antd/dist/antd.css'
 import { Button, Input, List} from 'antd'
 
@@ -20,7 +20,8 @@ const TodoListUI = (props) => {
         dataSource={props.list}
         renderItem={(item, index) => (
           <List.Item
-            onClick={(index) => props.handleListClick(index)}
+            // onClick={(index) => props.handleListClick(index)}
+            onClick={() => props.handleListClick(index)}  //这里的index实际上是上层的index，函数接收的参数是onclick对象
           >{item}</List.Item>)
         }
       />

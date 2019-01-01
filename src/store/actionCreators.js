@@ -1,4 +1,5 @@
 import ActionTypes from './actionTypes'
+import axios from 'axios'
 
 const getInputChangeAction = (value) => ({
   type: ActionTypes.CHANGE_INPUT_VALUE,
@@ -14,8 +15,17 @@ const getDelItemAction = (index) => ({
   index
 })
 
+const getTestApi = () => {
+  return (dispatch) => {
+    let url = 'https://api.decentraland.org/v1/map?nw=25,136&se=53,118'
+    axios.get(url)
+      .then((res) => console.log(res.data))
+  }
+}
+
 export default {
   getInputChangeAction,
   getAddItemAction,
   getDelItemAction,
+  getTestApi,
 }
