@@ -1,73 +1,63 @@
-import React, { Component } from 'react'
-// import { Button, Input, List } from 'antd'
-import store from './store'
-// import ActionTypes from './store/actionTypes'
-import ActionCreator from './store/actionCreators'
-import TodoListUI from './TodoListUI'
+import React from 'react'
+import {connect} from 'react-redux'
 
-class TodoList extends Component {
-  constructor (props) {
-    super(props)
-    this.state = store.getState()
+const TodoList = (props) => {
+  const {inputValue, list, changeInputValue, handleClick} = props
+  return (
+    <div>
+      <div>
+        <input
+          value={inputValue}
+          onChange={changeInputValue}
+        />
+        <button onClick={handleClick}>submit</button>
 
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handleStoreChange = this.handleStoreChange.bind(this)
-    this.handleBtnClick = this.handleBtnClick.bind(this)
-    this.handleListClick = this.handleListClick.bind(this)
+        <ul>
+          {
+            list.map((item, index) => {
+              return <li key={index} onClick={() => props.handleDelete(index)}>{item}</li>
+            })
+          }
+        </ul>
+      </div>
+    </div>
+  )
+}
 
-    store.subscribe(this.handleStoreChange)
-  }
-
-  componentDidMount () {
-    const action = ActionCreator.getTestApi()
-    // console.log(action)
-    store.dispatch(action)
-  }
-
-  handleInputChange (e) {
-    // console.log(e.target.value)
-    // const action = {    //action 的type属性是必须的
-    //   type: ActionTypes.CHANGE_INPUT_VALUE,
-    //   value: e.target.value,
-    // }
-    const action = ActionCreator.getInputChangeAction(e.target.value)
-    store.dispatch(action)
-  }
-
-  handleStoreChange () {
-    // console.log('store change')
-    this.setState(store.getState())
-  }
-
-  handleBtnClick () {
-    // const action = {
-    //   type: ActionTypes.ADD_TODO_ITEM,
-    // }
-    const action = ActionCreator.getAddItemAction()
-    store.dispatch(action)
-  }
-
-  handleListClick (index) {
-    // console.log(index)
-    // const action = {
-    //   type: ActionTypes.DEL_TODO_ITEM,
-    //   index,
-    // }
-    const action = ActionCreator.getDelItemAction(index)
-    store.dispatch(action)
-  }
-
-  render () {
-    return (
-      <TodoListUI
-        inputValue={this.state.inputValue}
-        list={this.state.list}
-        handleInputChange={this.handleInputChange}
-        handleBtnClick={this.handleBtnClick}
-        handleListClick={this.handleListClick}
-      />
-    )
+//定义store中数据到props的规则，state参数是store中的数据
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.inputValue,
+    list: state.list,
   }
 }
 
-export default TodoList
+//dispatch = store.dispatch
+const mapDispatchToProps = (dispatch) => {
+    return {
+      changeInputValue (e) {
+        const action = {
+          type: 'change_input_value',
+          value: e.target.value,
+        }
+        dispatch(action)
+      },
+
+      handleClick () {
+        const action = {
+          type: 'add_item',
+        }
+        dispatch(action)
+      },
+
+      handleDelete (index) {
+        const action = {
+          type: 'del_item',
+          index: index,
+        }
+        dispatch(action)
+      }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList) //todo 这种写法的含义
